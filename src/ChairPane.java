@@ -8,34 +8,49 @@
  *
  ******************************************************************/
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Image;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class ChairPane extends JPanel {
 	
 	private ChairDevice chairDev;
+	private final static String CHAIR_ON_PANEL_IMAGE = "images/chair-on.jpg";
+	private final static String CHAIR_OFF_PANEL_IMAGE = "images/chair-off.jpg";
+	private Image onChair;
+	private Image offChair;
 	
 	public ChairPane(final ChairDevice chairDev){
 		this.chairDev = chairDev;
-		JButton button = new JButton("Switch");
-		final JTextArea text = new JTextArea();
-		text.setText(chairDev.isOn() ? "Press": "No Press");
-		this.add(button);
-		this.add(text);
-		button.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(chairDev.isOn()){
-					chairDev.off();
-					text.setText("No Press");
-				}else{
-					chairDev.on();
-					text.setText("Press");
-				}
-			}
+		final ImageIcon chairIcon = new ImageIcon();
+		try {
+			onChair = ImageIO.read(new File(CHAIR_ON_PANEL_IMAGE));
+			offChair = ImageIO.read(new File(CHAIR_OFF_PANEL_IMAGE));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		chairIcon.setImage(offChair);
+		JButton chairButton = new JButton(chairIcon);
+		this.add(chairButton);
+		KeyboardFocusManager.getCurrentKeyboardFocusManager()
+		  .addKeyEventDispatcher(new KeyEventDispatcher() {
+		      @Override
+		      public boolean dispatchKeyEvent(KeyEvent e) {
+		    	  if(chairDev.isOn()){
+						chairDev.off();
+						chairIcon.setImage(offChair);
+					}else{
+						chairDev.on();
+						chairIcon.setImage(onChair);
+					}
+		    	  return false;
+		      }
 		});
 	}
 
