@@ -17,10 +17,10 @@ public class ChairPane extends JPanel {
 	
 	private ChairDevice chairDev;
 	
-	public ChairPane(ChairDevice chairDev){
+	public ChairPane(final ChairDevice chairDev){
 		this.chairDev = chairDev;
 		JButton button = new JButton("Switch");
-		JTextArea text = new JTextArea();
+		final JTextArea text = new JTextArea();
 		text.setText(chairDev.isOn() ? "Press": "No Press");
 		this.add(button);
 		this.add(text);
