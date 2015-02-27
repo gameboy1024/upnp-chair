@@ -41,7 +41,8 @@ public class ChairFrame extends JFrame implements WindowListener
 		getContentPane().add(chairPane, BorderLayout.CENTER);
 
 		addWindowListener(this);
-		this.setPreferredSize(new Dimension(300	, 100));
+		this.setPreferredSize(new Dimension(180	, 190));
+		this.setBackground(Color.WHITE);
 		
 		pack();
 		setVisible(true);
